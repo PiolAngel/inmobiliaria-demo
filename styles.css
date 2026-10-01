@@ -1889,3 +1889,21 @@ section {
     box-sizing: border-box;
   }
 }
+@media (max-width: 768px) {
+  .contact__map {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .contact__map iframe {
+    display: block;
+    width: 100% !important;
+    max-width: 100%;
+    min-width: 0;
+    border: 0;
+    box-sizing: border-box;
+  }
+}
