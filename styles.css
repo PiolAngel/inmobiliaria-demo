@@ -1002,18 +1002,23 @@ section {
    ========================================================= */
 .contact {
   background: var(--color-bg);
+  overflow: hidden;
 }
 
 .contact__grid {
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: clamp(2rem, 5vw, 4.5rem);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 5vw, 4rem);
   align-items: start;
+}
+
+.contact__info {
+  min-width: 0;
 }
 
 .contact__info h2 {
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 3vw, 2.3rem);
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
   font-weight: 500;
   color: var(--color-ink-strong);
   margin: 0 0 1rem;
@@ -1024,7 +1029,7 @@ section {
   color: var(--color-ink-soft);
   line-height: 1.6;
   max-width: 42ch;
-  margin: 0 0 1.75rem;
+  margin: 0 0 1.5rem;
 }
 
 .contact__details {
@@ -1032,12 +1037,12 @@ section {
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 1rem;
+  gap: 0.85rem;
 }
 
 .contact__details strong {
   display: block;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 600;
   color: var(--color-accent);
   margin-bottom: 0.15rem;
@@ -1045,37 +1050,40 @@ section {
 
 .contact__details span {
   color: var(--color-ink);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
 }
 
 .contact__map {
-  margin-top: 2rem;
-  padding: 2.5rem 1.5rem;
+  margin-top: 1.5rem;
+  padding: 1.75rem 1.25rem;
   border-radius: var(--radius-m);
   border: 1px dashed var(--color-line);
   background: var(--color-surface-alt);
   text-align: center;
   color: var(--color-ink-soft);
+  max-width: 100%;
 }
 
 .contact__map span {
   display: block;
   font-weight: 600;
   color: var(--color-ink-strong);
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.25rem;
 }
 
 .contact__map small {
-  font-size: 0.78rem;
+  font-size: 0.75rem;
 }
 
 .contact__form {
+  min-width: 0;
+  width: 100%;
   background: var(--color-surface);
   border: 1px solid var(--color-line);
   border-radius: var(--radius-m);
-  padding: clamp(1.75rem, 3vw, 2.5rem);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
   display: grid;
-  gap: 1.25rem;
+  gap: 1.15rem;
   box-shadow: var(--shadow-card);
 }
 
@@ -1093,6 +1101,8 @@ section {
 
 .form-field input,
 .form-field textarea {
+  width: 100%;
+  min-width: 0;
   font: inherit;
   font-size: 0.95rem;
   padding: 0.75rem 0.9rem;
@@ -1843,5 +1853,39 @@ section {
 
   .property-modal__info {
     padding: 1.5rem 1.25rem 2rem;
+  }
+}
+@media (max-width: 768px) {
+  .contact__grid {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    max-width: 100%;
+    gap: 2rem;
+  }
+
+  .contact__info,
+  .contact__form {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .contact__map {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .contact__form {
+    box-sizing: border-box;
+  }
+
+  .form-field,
+  .form-field input,
+  .form-field textarea {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 }
