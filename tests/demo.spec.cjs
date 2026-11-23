@@ -76,6 +76,15 @@ test('visual viewports and horizontal overflow', async ({page}, testInfo) => {
   // A full-page screenshot has no scrolling viewport. Respect reduced-motion
   // to make every reveal visible deterministically, without changing the site.
   await page.emulateMedia({reducedMotion:'reduce'});
+  await page.evaluate(async () => {
+   const images = [...document.querySelectorAll('img')];
+   for (const img of images) img.loading = 'eager';
+   await Promise.all(images.map(img => img.decode().catch(() => {})));
+  });
+  const brokenImages = await page.locator('img').evaluateAll(els =>
+   els.filter(img => img.getAttribute('src') && (!img.complete || img.naturalWidth === 0))
+      .map(img => img.getAttribute('src')));
+  expect(brokenImages, label + ' unloaded images').toEqual([]);
   await page.waitForTimeout(150);
   const invisible = await page.locator('[data-reveal]').evaluateAll(els =>
    els.filter(el => getComputedStyle(el).opacity === '0').length);
