@@ -9,6 +9,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+      - name: Validar sintaxis del control de publicación
+        run: python3 -m py_compile .github/scripts/verify-release.py
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
