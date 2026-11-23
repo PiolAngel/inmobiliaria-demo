@@ -56,3 +56,42 @@ test('mobile menu and keyboard', async ({page}) => {
  await expect(page.locator('#navbarNav')).toHaveAttribute('data-open','false');
  await expect(page.locator('body')).toHaveJSProperty('scrollWidth',390);
 });
+
+test('visual viewports and horizontal overflow', async ({page}, testInfo) => {
+ for (const [label,width,height] of [['mobile',390,844],['tablet',768,1024],['desktop',1440,900]]) {
+  await page.setViewportSize({width,height});
+  await page.reload();
+  await expect(page.locator('.property-card')).toHaveCount(6);
+  await expect(page.locator('h1')).toBeVisible();
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(overflow, label + ' horizontal overflow').toBeLessThanOrEqual(2);
+  await page.screenshot({path: 'test-results/'+label+'-full.png',fullPage:true,animations:'disabled'});
+ }
+});
+test('keyboard focus and dialog return', async ({page}) => {
+ await page.locator('.property-card__link').first().focus();
+ await page.keyboard.press('Enter');
+ await expect(page.locator('#propertyModal')).toHaveClass(/is-open/);
+ await expect(page.locator('.property-modal__close')).toBeFocused();
+ await page.keyboard.press('Escape');
+ await expect(page.locator('.property-card__link').first()).toBeFocused();
+ await page.locator('.gallery__item').first().focus();
+ await page.keyboard.press('Enter');
+ await expect(page.locator('#lightbox')).toHaveClass(/is-open/);
+ await page.keyboard.press('Escape');
+ await expect(page.locator('.gallery__item').first()).toBeFocused();
+});
+test('all local image resources including galleries', async ({page,request}) => {
+ const sources = await page.evaluate(() => [...document.querySelectorAll('img[src]')].map(x=>x.getAttribute('src')));
+ const gallerySources = await page.locator('.gallery__item img').evaluateAll(els=>els.map(x=>x.getAttribute('src')));
+ const propertySources = ['images/casa-1.png','images/casa-1-sala.jpeg','images/casa-1-cocina.jpeg','images/casa-1-habitacion.jpeg','images/casa-2.png','images/casa-2-sala.jpg','images/casa-2-cocina.jpeg'];
+ for(const src of [...new Set([...sources,...gallerySources,...propertySources])].filter(x=>x&&!x.startsWith('http')&&!x.startsWith('data:'))) {
+  const response=await request.get('/'+src.replace(/^\\//,''));
+  expect(response.status(),src).toBe(200);
+  expect(Number(response.headers()['content-length']||0),src).toBeGreaterThan(0);
+ }
+});
+test('no personal outbound contact links', async ({page}) => {
+ const urls=await page.locator('a[href]').evaluateAll(els=>els.map(x=>x.getAttribute('href')));
+ expect(urls.filter(x=>/wa\\.me|api\\.whatsapp|mailto:|instagram\\.com|facebook\\.com|tiktok\\.com/.test(x))).toEqual([]);
+});
