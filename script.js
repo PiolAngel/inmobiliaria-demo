@@ -391,7 +391,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setModalImage(0);
 
-    propertyModalWhatsapp.href = buildWhatsappUrl(propertyWhatsappMessage(property));
+    propertyModalWhatsapp.href = "#contacto";
     propertyModalWhatsapp.setAttribute(
       "aria-label",
       `Consultar por ${property.title} vía WhatsApp`
@@ -452,7 +452,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const propertiesCount = document.getElementById("propertiesCount");
 
   function propertyCardHTML(property) {
-    const whatsappMessage = propertyWhatsappMessage(property);
+    
 
     return `
       <article class="property-card">
@@ -472,7 +472,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="property-card__actions">
             <button type="button" class="property-card__link" data-property-id="${property.id}">Ver más</button>
             <a
-              href="${buildWhatsappUrl(whatsappMessage)}"
+              href="#contacto"
               class="property-card__whatsapp"
               target="_blank"
               rel="noopener noreferrer"
@@ -528,7 +528,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const matchesLocation =
   location === "todos" ||
   property.city === location ||
-  property.location === location;
+  property.location === location ||
+  (location === "Asunción" && ["Los Laureles", "Prócer Juan Manuel Iturbe", "Carmelitas"].includes(property.location));
       const matchesPrice = matchesPriceRange(property.price, priceRange);
       return matchesType && matchesLocation && matchesPrice;
     });
@@ -616,10 +617,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function validateContactForm() {
     let isValid = true;
 
-    const name = contactForm.name;
-    const email = contactForm.email;
-    const phone = contactForm.phone;
-    const message = contactForm.message;
+    const name = document.getElementById("name");
+    const email = document.getElementById("email");
+    const phone = document.getElementById("phone");
+    const message = document.getElementById("message");
 
     if (!name.value.trim()) {
       setFieldError(name, "Ingresá tu nombre.");
