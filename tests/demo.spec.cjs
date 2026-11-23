@@ -65,6 +65,17 @@ test('visual viewports and horizontal overflow', async ({page}, testInfo) => {
   await expect(page.locator('h1')).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow, label + ' horizontal overflow').toBeLessThanOrEqual(2);
+  // Full-page screenshots do not scroll the viewport, so IntersectionObserver
+  // reveal animations remain hidden unless we visit each section first.
+  const revealCount = await page.locator('[data-reveal]').count();
+  for (let i = 0; i < revealCount; i++) {
+   await page.locator('[data-reveal]').nth(i).scrollIntoViewIfNeeded();
+   await expect(page.locator('[data-reveal]').nth(i)).toHaveClass(/is-visible/);
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(800);
+  const hiddenReveals = await page.locator('[data-reveal]:not(.is-visible)').count();
+  expect(hiddenReveals, label + ' unrevealed sections').toBe(0);
   await page.screenshot({path: 'test-results/'+label+'-full.png',fullPage:true,animations:'disabled'});
  }
 });
