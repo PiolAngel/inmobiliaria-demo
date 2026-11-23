@@ -1,7 +1,5 @@
 name: Demo browser checks
 on:
-  push:
-    branches: [audit/demo-contact-safety]
   pull_request:
     branches: [main]
   workflow_dispatch:
