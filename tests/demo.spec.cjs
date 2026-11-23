@@ -65,18 +65,23 @@ test('visual viewports and horizontal overflow', async ({page}, testInfo) => {
   await expect(page.locator('h1')).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow, label + ' horizontal overflow').toBeLessThanOrEqual(2);
-  // Full-page screenshots do not scroll the viewport, so IntersectionObserver
-  // reveal animations remain hidden unless we visit each section first.
-  const revealCount = await page.locator('[data-reveal]').count();
-  for (let i = 0; i < revealCount; i++) {
-   await page.locator('[data-reveal]').nth(i).scrollIntoViewIfNeeded();
-   await expect(page.locator('[data-reveal]').nth(i)).toHaveClass(/is-visible/);
-  }
-  await page.evaluate(() => window.scrollTo(0, 0));
-  await page.waitForTimeout(800);
-  const hiddenReveals = await page.locator('[data-reveal]:not(.is-visible)').count();
-  expect(hiddenReveals, label + ' unrevealed sections').toBe(0);
+  // Walk the page like a visitor to activate IntersectionObserver reveals.
+  await page.evaluate(async () => {
+   for (let y = 0; y < document.documentElement.scrollHeight; y += Math.max(250, innerHeight * 0.7)) {
+    scrollTo(0, y);
+    await new Promise(resolve => setTimeout(resolve, 70));
+   }
+   scrollTo(0, 0);
+  });
+  // A full-page screenshot has no scrolling viewport. Respect reduced-motion
+  // to make every reveal visible deterministically, without changing the site.
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.waitForTimeout(150);
+  const invisible = await page.locator('[data-reveal]').evaluateAll(els =>
+   els.filter(el => getComputedStyle(el).opacity === '0').length);
+  expect(invisible, label + ' invisible reveal elements in capture').toBe(0);
   await page.screenshot({path: 'test-results/'+label+'-full.png',fullPage:true,animations:'disabled'});
+  await page.emulateMedia({reducedMotion:'no-preference'});
  }
 });
 test('keyboard focus and dialog return', async ({page}) => {
