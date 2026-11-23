@@ -1,0 +1,1 @@
+module.exports = { testDir:'./tests', use:{baseURL:'http://127.0.0.1:4173',browserName:'chromium'}, reporter:'line', retries:0, timeout:30000 };
