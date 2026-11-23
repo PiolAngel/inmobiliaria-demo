@@ -86,7 +86,7 @@ test('all local image resources including galleries', async ({page,request}) => 
  const gallerySources = await page.locator('.gallery__item img').evaluateAll(els=>els.map(x=>x.getAttribute('src')));
  const propertySources = ['images/casa-1.png','images/casa-1-sala.jpeg','images/casa-1-cocina.jpeg','images/casa-1-habitacion.jpeg','images/casa-2.png','images/casa-2-sala.jpg','images/casa-2-cocina.jpeg'];
  for(const src of [...new Set([...sources,...gallerySources,...propertySources])].filter(x=>x&&!x.startsWith('http')&&!x.startsWith('data:'))) {
-  const response=await request.get('/'+src.replace(/^\\//,''));
+  const response=await request.get('/'+src.replace(/^[/]/,''));
   expect(response.status(),src).toBe(200);
   expect(Number(response.headers()['content-length']||0),src).toBeGreaterThan(0);
  }
