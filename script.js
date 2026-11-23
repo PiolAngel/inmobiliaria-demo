@@ -401,7 +401,7 @@ document.addEventListener("DOMContentLoaded", () => {
     propertyModal.classList.add("is-open");
     propertyModal.setAttribute("aria-hidden", "false");
     lockScroll();
-    requestAnimationFrame(() => propertyModalCloseBtn.focus());
+    window.setTimeout(() => propertyModalCloseBtn.focus(), 100);
   }
 
   function closePropertyModal() {
