@@ -129,9 +129,9 @@ document.addEventListener("DOMContentLoaded", () => {
       bedrooms: 4,
       bathrooms: 3,
       area: 290,
-      alt: "Casa de dos pisos con acceso a garaje subterraneo",
+      alt: "Casa de dos pisos con acceso a garaje subterráneo",
       description:
-        "Casa de lujo con dos pisos, un acceso a garaje subettaneo, con una amplia sala, cocina con estilo moderno y habitaciones decoradas detalladamente.",
+        "Casa de lujo con dos pisos, un acceso a garaje subterráneo, con una amplia sala, cocina con estilo moderno y habitaciones decoradas detalladamente.",
       gallery: [
         "images/casa-1.png",
         "images/casa-1-sala.jpeg",
@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
       bedrooms: 4,
       bathrooms: 3,
       area: 310,
-      alt: "Casa moderna con estilo rustico",
+      alt: "Casa moderna con estilo rústico",
       description:
         "Residencia Sinfonía de Piedra y Luz Sofisticada arquitectura contemporánea con fachada de piedra y madera, que abre a una cocina gourmet de mármol Calacatta y una sala de doble altura con chimenea y arte curado.",
       gallery: [
@@ -165,6 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
       type: "departamento",
       typeLabel: "Departamento",
       location: "Carmelitas",
+      city: "Asunción",
       price: 168000,
       bedrooms: 2,
       bathrooms: 2,
@@ -394,7 +395,7 @@ document.addEventListener("DOMContentLoaded", () => {
     propertyModalWhatsapp.href = "#contacto";
     propertyModalWhatsapp.setAttribute(
       "aria-label",
-      `Consultar por ${property.title} vía WhatsApp`
+      `Consulta de demostración sobre ${property.title}`
     );
 
     propertyModal.classList.add("is-open");
@@ -474,9 +475,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <a
               href="#contacto"
               class="property-card__whatsapp"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Consultar por ${property.title} vía WhatsApp"
+              aria-label="Consulta de demostración sobre ${property.title}"
             >
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.7.8-.8.9-.2.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.2-.2 0-.4.1-.5.1-.1.2-.3.3-.4.1-.1.2-.2.2-.4.1-.2 0-.3 0-.4-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.2 1.6 2.5 4 3.5.6.2 1 .4 1.3.5.6.2 1.1.1 1.5-.1.5-.2 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.4-.3Z"/></svg>
             </a>
