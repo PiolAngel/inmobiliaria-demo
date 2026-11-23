@@ -79,46 +79,39 @@ document.addEventListener("DOMContentLoaded", () => {
   /* -----------------------------
      3. Configuración del sitio (único lugar para editar)
      ----------------------------- */
-  // Para cambiar el número de WhatsApp, editá SOLO esta línea.
+  // DEMO: sin números ni perfiles personales. Los enlaces muestran un aviso local.
   const siteConfig = {
-    whatsappNumber: "595981951940",
-    whatsappMessage:
-      "Hola, me gustaría recibir información sobre las propiedades disponibles.",
+    whatsappMessage: "Esta es una demostración comercial. No se envían consultas reales.",
   };
 
-  // Para activar una red social, reemplazá el valor por la URL real.
-  const socialLinks = {
-    instagram: "https://www.instagram.com/larios.ang/",
-    facebook: "https://www.facebook.com/profile.php?id=100088973084744",
-    linkedin: "https://www.tiktok.com/@ang.larios?is_from_webapp=1&sender_device=pc",
-  };
-
-  function buildWhatsappUrl(message) {
-    const text = encodeURIComponent(message || siteConfig.whatsappMessage);
-    return `https://wa.me/${siteConfig.whatsappNumber}?text=${text}`;
+  function showDemoContact(event) {
+    if (event) event.preventDefault();
+    window.alert(siteConfig.whatsappMessage);
   }
 
-  const contactWhatsapp = document.getElementById("contactWhatsapp");
-  if (contactWhatsapp) {
-    contactWhatsapp.href = buildWhatsappUrl(siteConfig.whatsappMessage);
-  }
-
-  const whatsappFloat = document.getElementById("whatsappFloat");
-  if (whatsappFloat) {
-    whatsappFloat.href = buildWhatsappUrl(siteConfig.whatsappMessage);
+  function buildWhatsappUrl() {
+    return "#contacto";
   }
 
   document.querySelectorAll("[data-social]").forEach((link) => {
-    const key = link.getAttribute("data-social");
-    const url = socialLinks[key];
+    link.href = "#contacto";
+    link.removeAttribute("target");
+    link.addEventListener("click", showDemoContact);
+  });
 
-    if (!url || url === "#") {
-      link.setAttribute("href", "#");
-      link.addEventListener("click", (e) => e.preventDefault());
-    } else {
-      link.setAttribute("href", url);
-      link.setAttribute("target", "_blank");
+  ["contactWhatsapp", "whatsappFloat", "propertyModalWhatsapp"].forEach((id) => {
+    const link = document.getElementById(id);
+    if (link) {
+      link.href = "#contacto";
+      link.removeAttribute("target");
+      link.addEventListener("click", showDemoContact);
     }
+  });
+
+  // Los botones de WhatsApp de las tarjetas se crean dinámicamente.
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest(".property-card__whatsapp");
+    if (link) showDemoContact(event);
   });
 
   /* -----------------------------
