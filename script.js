@@ -213,7 +213,6 @@ document.addEventListener("DOMContentLoaded", () => {
         "Casa de fin de semana rodeada de naturaleza, a minutos del lago Ypacaraí. Ideal para descansar en familia o como propiedad de alquiler temporario.",
       gallery: [
         "https://images.unsplash.com/photo-1558036117-15d82a90b9b1?auto=format&fit=crop&w=1000&h=750&q=80",
-        "https://images.unsplash.com/photo-1757361653037-dbf0d0a820ae?auto=format&fit=crop&w=1000&h=750&q=80",
         "https://images.unsplash.com/photo-1593696140826-c58b021acf8b?auto=format&fit=crop&w=1000&h=750&q=80",
       ],
     },
