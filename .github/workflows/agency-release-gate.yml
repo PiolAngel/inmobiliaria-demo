@@ -1,0 +1,30 @@
+name: Agencia / Publicación segura
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+
+jobs:
+  release-gate:
+    name: Autorizar publicación
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Comprobar sintaxis del control en pull requests
+        if: github.event_name == 'pull_request'
+        run: python3 -m py_compile .github/scripts/verify-release.py
+      - name: Exigir pull request y pruebas aprobadas
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPECTED_WORKFLOWS: ".github/workflows/demo-browser.yml"
+        run: python3 .github/scripts/verify-release.py
